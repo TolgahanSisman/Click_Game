@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: khaki;
+        }
+
+        .container {
+            margin: auto;
+            width: 30%;
+            text-align: center;
+        }
+
+        .info {
+            margin: auto;
+            width: 30%;
+            text-align: center;
+
+        }
+
+        #baslik {
+            font-size: 32px;
+            font-family: serif;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #seviye {
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-family: cursive;
+            align-content: center;
+        }
+
+        .btn {
+            border: 1px solid black;
+            width: 70px;
+            height: 70px;
+            float: left;
+            margin: 0px;
+            color: #000;
+            font-size: 80pt;
+            text-align: center;
+            padding: 0px;
+            background-color: white;
+            background-size: cover;
+            cursor: url("./images/Hammer.cur"), auto;
+        }
+
+        #temizle {
+            clear: both
+        }
+
+
+        #bilgi {
+            font-family: Tahoma;
+            font-size: 20px;
+            margin-top: 20px;
+            margin-left: 0px;
+            padding: 10px;
+            width: 410px;
+            height: 30px;
+        }
+
+        .dogru {
+            color: greenyellow;
+            background-color: green;
+        }
+
+        .yanlis {
+            color: #FFF;
+            background-color: grey;
+        }
+    </style>
+
+    <script>
+        var puan = 0;
+        var tilki = "url(images/tilki.png)";
+        var baslat = setInterval(calistir, 800);
+
+        function DivOlustur() {
+            for (let i = 1; i <= 36; i++) {
+                var div = document.createElement('div');
+                div.id = 'btn' + i;
+                div.className = 'btn';
+                div.setAttribute("onclick", "kontrol(this.id)")
+                document.getElementById("container").appendChild(div);
+            }
+        }
+
+        function playAudio(url) {
+            new Audio(url).play();
+        }
+
+        function calistir() {
+            for (i = 1; i <= 36; i++) {
+                document.getElementById("btn" + i).style.backgroundImage = "";
+            }
+            alt = 1;
+            ust = 36;
+            aralik = ust - alt + 1;
+            deger = Math.floor(Math.random() * (aralik)) + alt;
+            document.getElementById("btn" + deger).style.backgroundImage = tilki;
+            secilen = document.getElementById("btn" + deger);
+        }
+
+        function kontrol(tiklanan_id) {
+            document.getElementById("bilgi").innerHTML = "";
+            namee = "tilki";
+            if (document.getElementById(tiklanan_id) == secilen) {
+                puan += 10;
+                playAudio('win.wav');
+                document.getElementById(tiklanan_id).style.backgroundImage = '';
+                element = document.getElementById("bilgi");
+                element.classList.remove("yanlis");
+                element.classList.add("dogru");
+                document.getElementById("bilgi").innerText = "Tebrikler, puan: " + puan;
+            }
+
+            else {
+                if (puan <= 0) {
+                    puan = 0;
+                    element = document.getElementById("bilgi");
+                    element.classList.remove("dogru");
+                    element.classList.add("yanlis");
+                    document.getElementById("bilgi").innerText = "Üzgünüm, puan: " + puan;
+                } else {
+                    puan -= 5;
+                    element = document.getElementById("bilgi");
+                    element.classList.remove("dogru");
+                    element.classList.add("yanlis");
+                    document.getElementById("bilgi").innerText = "Üzgünüm, puan: " + puan;
+                }
+            }
+        }
+
+    </script>
+</head>
+
+<body onload="DivOlustur()">
+    <div class="info">
+        <p id="baslik">Dikkat Oyunu</p>
+        <p id="seviye">Level - 3</p>
+    </div>
+    <div class="container" id="container">
+
+    </div>
+    <div class="info">
+        <div id="temizle"></div>
+        <div id="bilgi" class="dogru"></div>
+    </div>
+</body>
+
+</html>

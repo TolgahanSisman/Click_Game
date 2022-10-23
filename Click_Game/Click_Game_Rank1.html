@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: khaki;
+        }
+
+        .container {
+            margin: auto;
+            width: 30%;
+            text-align: center;
+
+        }
+
+        .info {
+            margin: auto;
+            width: 30%;
+            text-align: center;
+
+        }
+
+        #baslik {
+            font-size: 32px;
+            font-family: serif;
+            font-weight: bold;
+            text-align: center;
+            margin-right: 65px;
+        }
+
+        #seviye {
+            font-size: 20px;
+            text-align: left;
+            font-weight: bold;
+            font-family: cursive;
+            text-align: center;
+            margin-right: 80px;
+        }
+
+        .btn {
+            border: 1px solid black;
+            width: 90px;
+            height: 90px;
+            float: left;
+            margin: 0px;
+            color: #000;
+            font-size: 80pt;
+            text-align: center;
+            padding: 0px;
+            background-color: white;
+        }
+
+        #temizle {
+            clear: both
+        }
+
+
+        #bilgi {
+            font-family: Tahoma;
+            font-size: 20px;
+            margin-top: 20px;
+            margin-left: 0px;
+            padding: 10px;
+            width: 350px;
+            height: 30px;
+        }
+
+        .dogru {
+            color: greenyellow;
+            background-color: green;
+        }
+
+        .yanlis {
+            color: #FFF;
+            background-color: grey;
+        }
+
+    </style>
+
+    <script>
+        var puan = 0;
+        var baslat = setInterval(calistir, 1000, 16);
+        var renkler = ["indigo", "blue", "brown", "crimson", "deeppink"]
+
+        function DivOlustur() {
+            for (let i = 1; i <= 16; i++) {
+                var div = document.createElement('div');
+                div.id = 'btn' + i;
+                div.className = 'btn';
+                div.setAttribute("onclick", "kontrol(this.id)")
+                document.getElementById("container").appendChild(div);
+            }
+        }
+
+        function calistir(n) {
+            for (i = 1; i <= n; i++) {
+                document.getElementById("btn" + i).style.backgroundColor = "white";
+            }
+            alt = 1;
+            ust = n;
+            aralik = ust - alt + 1;
+            deger = Math.floor(Math.random() * (aralik)) + alt;
+            renkler = renkler.sort(() => Math.random() - 0.5)
+            document.getElementById("btn" + deger).style.backgroundColor = renkler[0];
+        }
+
+        function kontrol(tiklanan_id) {
+            document.getElementById("bilgi").innerHTML = "";
+            if (document.getElementById(tiklanan_id).style.backgroundColor == renkler[0]) {
+                puan += 10;
+                document.getElementById(tiklanan_id).style.backgroundColor = "white";
+                element = document.getElementById("bilgi");
+                element.classList.remove("yanlis");
+                element.classList.add("dogru");
+                document.getElementById("bilgi").innerText = "Tebrikler, puan:" + puan;
+                if (puan == 100 || puan == 105) {
+                    alert('Tebrikler 100 puan kazandınız. \n LEVEL UP ! \n-----> Level 2 <-----');
+                    clearInterval(baslat);
+                    document.getElementById("seviye").innerHTML = "Level - 2";
+                    baslat = setInterval(calistir, 800, 36);
+                    document.getElementById("container").innerHTML = ("");
+                    for (let i = 1; i <= 36; i++) {
+                        var div = document.createElement('div');
+                        div.id = "btn" + (i);
+                        div.className = 'btn';
+                        div.setAttribute("onclick", "kontrol(this.id)")
+                        document.getElementById("container").appendChild(div);
+                        document.getElementById('btn' + i).style.width = "70px";
+                        document.getElementById('btn' + i).style.height = "70px";
+                        document.getElementById("bilgi").style.width = "410px";
+                    }
+                }
+            } else {
+                if (puan <= 0) {
+                    puan = 0;
+                    element = document.getElementById("bilgi");
+                    element.classList.remove("dogru");
+                    element.classList.add("yanlis");
+                    document.getElementById("bilgi").innerText = "Üzgünüm, puan:" + puan;
+                } else {
+                    puan -= 5;
+                    element = document.getElementById("bilgi");
+                    element.classList.remove("dogru");
+                    element.classList.add("yanlis");
+                    document.getElementById("bilgi").innerText = "Üzgünüm, puan:" + puan;
+                }
+            }
+        }
+
+    </script>
+</head>
+
+<body onload="DivOlustur()">
+    <div class="info">
+        <p id="baslik">Dikkat Oyunu</p>
+        <p id="seviye">Level - 1</p>
+    </div>
+    <div class="container" id="container">
+
+    </div>
+    <div class="info">
+        <div id="temizle"></div>
+        <div id="bilgi" class="dogru"></div>
+    </div>
+</body>
+
+</html>
